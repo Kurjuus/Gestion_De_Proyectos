@@ -1,6 +1,6 @@
 \documentclass[
 11pt, % The default document font size, options: 10pt, 11pt, 12pt
-codirector, % Uncomment to add a codirector to the title page
+%codirector, % Uncomment to add a codirector to the title page
 ]{charter} 
 
 
@@ -70,7 +70,7 @@ codirector, % Uncomment to add a codirector to the title page
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
 v1.0      & Creación del documento                                 &\fechaInicioName \\ \hline
 %1      & Se completa hasta el punto 4 inclusive                 & dd/mm/aaaa \\ \hline
-%2      & Se completa hasta el punto 7 inclusive
+v2.0      & Se completa hasta el punto 9 inclusive				& 28 de septiembre de 2023 \\ \hline
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
 %		  Así                                                    & dd/mm/aaaa \\ \hline
@@ -92,7 +92,7 @@ Buenos Aires, \fechaInicioName
 
 \vspace{2cm}
 
-Por medio de la presente se acuerda con el Ing. \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'', consistirá esencialmente en la implementación de un sistema que programe placas electrónicas mediante protocolo RS-232 y que los archivos de programación sean descargados por Wi-Fi y esos archivos podrán ser consultados a través de una página web, y tendrá un presupuesto preliminar estimado de 600 hs de trabajo, con fecha de inicio \fechaInicioName\hspace{1px} y fecha de presentación pública \fechaFinalName.
+Por medio de la presente se acuerda con el Ing. \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'', consistirá esencialmente en la implementación de un sistema que programe placas electrónicas mediante protocolo RS-232 y que los archivos de programación sean descargados por Wi-Fi y esos archivos podrán ser consultados a través de una página web, y tendrá un presupuesto preliminar estimado de 671 hs de trabajo, con fecha de inicio \fechaInicioName\hspace{1px} y fecha de presentación pública \fechaFinalName.
 
 Se adjunta a esta acta la planificación inicial.
 
@@ -158,15 +158,9 @@ Por esto anterior se puede resumir el proyecto en unos puntos:
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
-Auspiciante   & \clientename      &\empclientename 	& Socio - Propietario \\ \hline
 Cliente       & \clientename      &\empclientename	& Socio - Propietario \\ \hline
-Impulsor      &       -           &       -       	&     -   	\\ \hline
 Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
-Colaboradores &       -           &       -       	&     -   	\\ \hline
 Orientador    & \supname	      & \pertesupname 	& Director Trabajo final \\ \hline
-Equipo        & miembro1 \newline 
-				miembro2          &              	&        	\\ \hline
-Opositores    &       -           &       -       	&     -   	\\ \hline
 Usuario final & Clientes de SURiX &       -      	&     -   	\\ \hline
 \end{tabularx}
 \end{table}
@@ -174,7 +168,7 @@ Usuario final & Clientes de SURiX &       -      	&     -   	\\ \hline
 
 
 \begin{itemize}
-	\item Auspiciante: Sergio Starkloff fue el que propuso el proyecto. Las reuniones con él son virtuales debido a que se encuentra fuera del país. En este proyecto también emplea el papel de Director.
+	\item Cliente: Sergio Starkloff fue el que propuso el proyecto. Las reuniones con él son virtuales debido a que se encuentra fuera del país. En este proyecto también emplea el papel de Director.
 	%\item Equipo: Juan Perez, suele pedir licencia porque tiene un familiar con una enfermedad. Planificar considerando esto.
 	\item Orientador: Sergio Starkloff es también el orientador del proyecto. Cualquier duda técnica se le puede realizar a él.
 	\item Usuario final: Los usuarios finales son los clientes de SURiX S.R.L que se ven en la necesidad de actualizar los productos de una forma remota.
@@ -227,105 +221,137 @@ Para el desarrollo del presente proyecto se supone que:
 \section{6. Requerimientos}
 \label{sec:requerimientos}
 
-\begin{consigna}{red}
-Los requerimientos deben numerarse y de ser posible estar agruparlos por afinidad, por ejemplo:
-
 \begin{enumerate}
-	\item Requerimientos funcionales
+	\item Requerimientos generales de funcionamiento del sistema:
 		\begin{enumerate}
-			\item El sistema debe...
-			\item Tal componente debe...
-			\item El usuario debe poder...
+			\item El sistema debe tener conexión a Wi-Fi.
+			\item El sistema debe cargar y/o descargar un archivo de configuración desde un servidor.
+			\item El sistema debe bajar el archivo de configuración a una tarjeta electrónica a través del protocolo de comunicación RS-232.
+			\item El usuario debe poder cargar archivos de configuración al servidor desde una página web.
+			\item La carga/descarga de archivos al servidor se realizará mediante protocol FTP.
+			\item El sistema debe poder mandar una señal de reset a la tarjeta electrónica a programar.
+		\end{enumerate}
+	\item Requerimientos de la plataforma Web:
+		\begin{enumerate}
+			\item La plataforma Web debe permitir interactuar con el servidor para poder cargar y descargar archivos de configuración al y desde el servidor.
+			\item La plataforma Web debe poder mandar comandos al sistema programador.
+			
+			
+		\end{enumerate}
+		
+		
+	\item Requerimientos del Firmware:
+		\begin{enumerate}
+			\item El firmware debe consultar periódicamente al servidor si hay algún comando a ejecutar.
+			\item Deben existir al menos los siguientes comandos que el firmware debe interpretar:
+			\begin{itemize}
+				\item Configurar
+				\item Descargar configuración
+				\item Upload al servidor
+				\item Download al servidor
+				\item Reset
+			\end{itemize}
+		\end{enumerate}
+	\item Requerimientos del Hardware:
+		\begin{enumerate}
+			\item El hardware debe de ser de bajo costo.
+			\item Debe ser un microcontrolador popular en el mercado para que siempre exista disponibilidad de obtenerlo.
+			\item Debe tener conexión a internet mediante Wi-Fi.
+			\item Debe tener comunicación UART.
+			\item Tener memoria flash para poder almacenar el archivo de configuración.
+			\item Debe poder ser alimentado con 5V o 12V.
+		\end{enumerate}
+	\item Requerimientos de testing
+		\begin{enumerate}
+			\item Test unitario de cada función de software.
+			\item Test de descarga de archivo del programador remoto hacia la placa a programar.
+			\item Test de carga y descarga de archivo del programador remoto hacia el servidor.
+			\item Test de carga y descarga de archivos hacia el servidor desde la plataforma Web.
+			\item Test de envío de comandos desde la plataforma Web hacia el programador remoto.
 		\end{enumerate}
 	\item Requerimientos de documentación
 		\begin{enumerate}
-			\item Requerimiento 1
-			\item Requerimiento 2 (prioridad menor)
+			\item El desarrollo estará acompañado de una memoria técnica.
+			\item El desarrollo estará acompañado de una guía de usuario.
 		\end{enumerate}
-	\item Requerimiento de testing...
-	\item Requerimientos de la interfaz...
-	\item Requerimientos interoperabilidad...
-	\item etc...
 \end{enumerate}
 
-Leyendo los requerimientos se debe poder interpretar cómo será el proyecto y su funcionalidad.
-
-Indicar claramente cuál es la prioridad entre los distintos requerimientos y si hay requerimientos opcionales. 
-
-No olvidarse de que los requerimientos incluyen a las regulaciones y normas vigentes!!!
-
-Y al escribirlos seguir las siguientes reglas:
-\begin{itemize}
-	\item Ser breve y conciso (nadie lee cosas largas). 
-	\item Ser específico: no dejar lugar a confusiones.
-	\item Expresar los requerimientos en términos que sean cuantificables y medibles.
-\end{itemize}
-
-\end{consigna}
 
 \section{7. Historias de usuarios (\textit{Product backlog})}
 \label{sec:backlog}
 
-\begin{consigna}{red}
-Descripción: En esta sección se deben incluir las historias de usuarios y su ponderación (\textit{history points}). Recordar que las historias de usuarios son descripciones cortas y simples de una característica contada desde la perspectiva de la persona que desea la nueva capacidad, generalmente un usuario o cliente del sistema. La ponderación es un número entero que representa el tamaño de la historia comparada con otras historias de similar tipo.
+En el contexto actual la única historia de usuarios es la del cliente/director del proyecto, la cual sería la siguiente:
+Se desea diseñar un programador remoto para poder actualizar diferentes productos como porteros y controles de acceso que cuenten con una interfaz RS-232, de forma remota, mandando comandos al programador por una página web. Una página web en lugar de una aplicación para pc sería mejor ya que no habría problemas de compatibilidad entre sistemas operativos para correr la aplicación.
 
-El formato propuesto es: "como [rol] quiero [tal cosa] para [tal otra cosa]."
-
-Se debe indicar explícitamente el criterio para calcular los \textit{story points} de cada historia
-\end{consigna}
 
 \section{8. Entregables principales del proyecto}
 \label{sec:entregables}
 
-\begin{consigna}{red}
-
-Los entregables del proyecto son (ejemplo):
-
 \begin{itemize}
-	\item Manual de uso
-	\item Diagrama de circuitos esquemáticos
+	\item Prototipo del sistema
+	\item Manual de usuario
 	\item Código fuente del firmware
-	\item Diagrama de instalación
-	\item Informe final
-	\item etc...
+	\item Código fuente de la plataforma web
+	\item Memorias del proyecto
 \end{itemize}
 
-\end{consigna}
 
 \section{9. Desglose del trabajo en tareas}
 \label{sec:wbs}
 
-\begin{consigna}{red}
-El WBS debe tener relación directa o indirecta con los requerimientos.  Son todas las actividades que se harán en el proyecto para dar cumplimiento a los requerimientos. Se recomienda mostrar el WBS mediante una lista indexada:
-
 \begin{enumerate}
-\item Grupo de tareas 1
+\item Planificación del proyecto
 	\begin{enumerate}
-	\item Tarea 1 (tantas h)
-	\item Tarea 2 (tantas hs)
-	\item Tarea 3 (tantas h)
+	\item Definición de proyecto, alcances, requerimientos y plan de trabajo. (20 hs)
+	\item Presentanción del proyecto. (20 hs)
 	\end{enumerate}
-\item Grupo de tareas 2
+\item Investigación y diseño del proyecto
 	\begin{enumerate}
-	\item Tarea 1 (tantas h)
-	\item Tarea 2 (tantas h)
-	\item Tarea 3 (tantas h)
+	\item Estudio de las familias de microcontroladores Espressif (10 hs)
+	\item Análisis de periféricos necesarios para la aplicación (10 hs)
+	\item Selección y compra de chip microcontrolador (10 hs)
 	\end{enumerate}
-\item Grupo de tareas 3
+\item Diseño de Hardware
 	\begin{enumerate}
-	\item Tarea 1 (tantas h)
-	\item Tarea 2 (tantas h)
-	\item Tarea 3 (tantas h)
-	\item Tarea 4 (tantas h)
-	\item Tarea 5 (tantas h)
+	\item Elaboración de diagrama esquemático para prototipo. (35 hs)
+	\item Elaboración de PCB para pruebas. (35 hs)
+	\end{enumerate}
+\item Diseño de Firmware
+	\begin{enumerate}
+	\item Definición del diagrama de flujo del programa. (20 hs)
+	\item Definición de máquina de estados del sistema. (20 hs)
+	\item Desarrollo del código para la conexión UART. (30 hs)
+	\item Desarrollo del código para la conexión a internet por medio de Wi-Fi. (40 hs)
+	\item Desarrollo del código para la carga y descarga de archivos al servidor. (40 hs)
+	\item Desarrollo del código para la transmisión de archivos del programador remoto a la placa electrónica a programar (40 hs).
+	\end{enumerate}
+\item Diseño de página web
+	\begin{enumerate}
+	\item Investigación de los lenguajes necesarios para el desarrollo de la página web. (18 hs)
+	\item Diseño de mock-ups para la página web. (10 hs)
+	\item Diseño de la página web. (40 hs)
+	\end{enumerate}
+\item Testing
+	\begin{enumerate}
+	\item Prueba de conexión del programador remoto con el servidor. (25 hs)
+	\item Prueba de carga y descarga de archivos desde el programador remoto hacia el servidor mediante protocolo FTP. (25 hs)
+	\item Prueba de la aplicación web. (30 hs)
+	\item Prueba de mando de comandos desde la página web hacia el programador remoto. (33 hs)
+	\item Prueba carga y descarga de archivos desde la página web hacia el servidor. (30 hs)
+	\end{enumerate}
+\item Documentación
+	\begin{enumerate}
+	\item Elaboración de manual de usuario. (35 hs)
+	\item Elaboración de manual para el desarrollador. (30 hs)
+	\end{enumerate}
+\item Memorias y presentación final
+	\begin{enumerate}
+	\item Escritura de memoria técnica. (40 hs)
+	\item Preparación de presentanción del trabajo final. (25 hs)
 	\end{enumerate}
 \end{enumerate}
 
-Cantidad total de horas: (tantas h)
-
-Se recomienda que no haya ninguna tarea que lleve más de 40 h. 
-
-\end{consigna}
+Cantidad total de horas: 671 hs
 
 \section{10. Diagrama de Activity On Node}
 \label{sec:AoN}
