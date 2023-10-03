@@ -184,6 +184,7 @@ Usuario final & Clientes de SURiX &       -      	&     -   	\\ \hline
 El propósito de este proyecto es desarrollar un programador remoto de equipos electrónicos . Este desarrollo permite poder cargar y descargar un archivo de configuracion a un servidor y además se desarrollará una página web en la que se podrá cargar los archivos de configuración que serán descargados al programador remoto.
 
 
+\newpage
 \section{4. Alcance del proyecto}
 \label{sec:alcance}
 
@@ -283,7 +284,7 @@ Para el desarrollo del presente proyecto se supone que:
 En el contexto actual la única historia de usuarios es la del cliente/director del proyecto, la cual sería la siguiente:
 Se desea diseñar un programador remoto para poder actualizar diferentes productos como porteros y controles de acceso que cuenten con una interfaz RS-232, de forma remota, mandando comandos al programador por una página web. Una página web en lugar de una aplicación para pc sería mejor ya que no habría problemas de compatibilidad entre sistemas operativos para correr la aplicación.
 
-
+\newpage
 \section{8. Entregables principales del proyecto}
 \label{sec:entregables}
 
@@ -353,100 +354,177 @@ Se desea diseñar un programador remoto para poder actualizar diferentes product
 
 Cantidad total de horas: 671 hs
 
+\newpage
 \section{10. Diagrama de Activity On Node}
 \label{sec:AoN}
-
-\begin{consigna}{red}
-Armar el AoN a partir del WBS definido en la etapa anterior. 
 
 %La figura \ref{fig:AoN} fue elaborada con el paquete latex tikz y pueden consultar la siguiente referencia \textit{online}:
 
 %\url{https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ:_A_Tutorial_for_Beginners_(Part_3)\%E2\%80\%94Creating_Flowcharts}
 
-\end{consigna}
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=.8\textwidth]{./Figuras/AoN.png}
-\caption{Diagrama de \textit{Activity on Node}.}
-\label{fig:AoN}
+\begin{figure}[!hbp]
+	\centering
+	\begin{tikzpicture}[node distance=2.15cm]
+	
+	\tikzstyle{block} = [rectangle, draw, fill=yellow!10, text width=7em, text centered, rounded corners, minimum height=3.5em]
+	\tikzstyle{line} = [draw, -latex']
+	\tikzstyle{critical_line} = [draw, red, very thick, -latex']
+	\tikzstyle{circleblock} = [circle, draw, fill=gray!10, text centered, minimum size=3em]
+	
+	\node [circleblock, align=center] (init) {Inicio \\22-08-2023};
+	\node [block, below of=init] (1) {1. Planificación del proyecto { {\color{red}t=40hs}}};
+	\node [block, below of=1] (2) {2. Investigación y diseño del proyecto { {\color{red}t=30hs}}};
+	\node [block, below of=2, node distance=3cm] (3) {3. Diseño de Hardware {\color{red}t=70hs}};
+	\node [block, right of=3, node distance=3cm, xshift=1cm] (4) {4. Diseño de Firmware {\color{red}t=190hs}};
+	\node [block, left of=3, node distance=4cm] (5) {5. Diseño de Página web { {\color{red}t=68hs}}};
+	\node [block, below of=3] (6) {6. Testing { {\color{red}t=143hs}}};
+	\node [block, below of=6] (7) {7. Documentación { {\color{red}t=65hs}}};
+	\node [block, below of=7] (8) {8. Memorias { {\color{red}t=65hs}}};
+	\node [circleblock, below of=8, align=center] (fin) {Fin \\10-06-2024}; % nodo actualizado
+	
+	\path [critical_line] (init) -- (1);
+	\path [critical_line] (1) -- (2);
+	%\path [critical_line] (1) -- (4);
+	\path [critical_line] (2) -- (3);
+	\path [critical_line] (3) -- (4);
+	%\path [line] (2) -- (4);
+	\path [line] (4) |- (6);
+	\path [critical_line] (3) -- (5);
+	\path [critical_line] (5) |- (6);
+	\path [critical_line] (6) -- (7);
+	\path [critical_line] (7) -- (8);
+	\path [critical_line] (8) -- (fin);
+	
+	\end{tikzpicture}
+	\caption{Diagrama de flujo para la gestión del proyecto.}
+	\label{fig:diagrama}
 \end{figure}
-
-Indicar claramente en qué unidades están expresados los tiempos.
-De ser necesario indicar los caminos semicríticos y analizar sus tiempos mediante un cuadro.
-Es recomendable usar colores y un cuadro indicativo describiendo qué representa cada color, como se muestra en el siguiente ejemplo:
-
 
 
 \section{11. Diagrama de Gantt}
 \label{sec:gantt}
 
-\begin{consigna}{red}
 
-Existen muchos programas y recursos \textit{online} para hacer diagramas de Gantt, entre los cuales destacamos:
-
-\begin{itemize}
-\item Planner
-\item GanttProject
-\item Trello + \textit{plugins}. En el siguiente link hay un tutorial oficial: \\ \url{https://blog.trello.com/es/diagrama-de-gantt-de-un-proyecto}
-\item Creately, herramienta online colaborativa. \\\url{https://creately.com/diagram/example/ieb3p3ml/LaTeX}
-\item Se puede hacer en latex con el paquete \textit{pgfgantt}\\ \url{http://ctan.dcc.uchile.cl/graphics/pgf/contrib/pgfgantt/pgfgantt.pdf}
-\end{itemize}
-
-Pegar acá una captura de pantalla del diagrama de Gantt, cuidando que la letra sea suficientemente grande como para ser legible. 
-Si el diagrama queda demasiado ancho, se puede pegar primero la ``tabla'' del Gantt y luego pegar la parte del diagrama de barras del diagrama de Gantt.
-
-Configurar el software para que en la parte de la tabla muestre los códigos del EDT (WBS).\\
-Configurar el software para que al lado de cada barra muestre el nombre de cada tarea.\\
-Revisar que la fecha de finalización coincida con lo indicado en el Acta Constitutiva.
-
-En la figura \ref{fig:gantt}, se muestra un ejemplo de diagrama de Gantt realizado con el paquete de \textit{pgfgantt}. En la plantilla pueden ver el código que lo genera y usarlo de base para construir el propio.
-
-\begin{figure}[htbp]
-\begin{center}
-\begin{ganttchart}{1}{12}
-  \gantttitle{2020}{12} \\
-  \gantttitlelist{1,...,12}{1} \\
-  \ganttgroup{Group 1}{1}{7} \\
-  \ganttbar{Task 1}{1}{2} \\
-  \ganttlinkedbar{Task 2}{3}{7} \ganttnewline
-  \ganttmilestone{Milestone o hito}{7} \ganttnewline
-  \ganttbar{Final Task}{8}{12}
-  \ganttlink{elem2}{elem3}
-  \ganttlink{elem3}{elem4}
+\rotatebox{90}{%
+\begin{ganttchart}[
+	hgrid,
+	vgrid,
+	x unit=0.12cm,
+	y unit chart=0.7cm,
+	time slot format=isodate,
+	time slot unit=day,
+	bar/.append style={fill=blue!30},
+	group/.append style={fill=blue!50},
+	link/.style={->, thick}
+	]{2023-09-08}{2024-01-13}
+	
+	\gantttitlecalendar{year, month} \\
+	
+	\ganttgroup{1 Gestión del Proyecto}{2023-09-11}{2023-10-12} \\
+	\ganttbar{1.1 Definición de proyecto y requerimientos}{2023-09-11}{2023-09-15} \\
+	\ganttbar{1.2 Presentación del proyecto}{2023-09-18}{2023-10-12} \\
+	
+	\ganttgroup{2 Investigación y diseño}{2023-10-11}{2023-10-21} \\
+	\ganttbar{2.1 Estudio de familias de chip Espressif}{2023-10-11}{2023-10-14} \\
+	\ganttbar{2.2 Análisis de periféricos la aplicación}{2023-10-15}{2023-10-17} \\
+	\ganttbar{2.3 Selección y compra de chip}{2023-10-18}{2023-10-21} \\
+	
+	\ganttgroup{3 Diseño de hardware}{2023-10-22}{2023-11-06} \\
+	\ganttbar{3.1 Elaboración de diagrama esquemático}{2023-10-22}{2023-10-30} \\
+	\ganttbar{3.2 Elaboración de PCB para pruebas}{2023-10-31}{2023-11-06} \\
+	
+	\ganttgroup{4 Diseño de firmware}{2023-11-07}{2024-01-12} \\
+	\ganttbar{4.1 Definición del diagrama de flujo}{2023-11-07}{2023-11-13} \\
+	\ganttbar{4.2 Definición de máquina de estados}{2023-11-14}{2023-11-20} \\
+	\ganttbar{4.3 Desarrollo de interfaz UART}{2023-01-21}{2023-01-28} \\
+	\ganttbar{4.4 Desarrollo de conexión por Wi-Fi}{2023-11-29}{2023-12-13} \\
+	\ganttbar{4.5 Carga y descarga de archivos al servidor}{2023-12-14}{2023-12-28} \\
+	\ganttbar{4.6 Transmisión de archivos desde programador}{2023-12-29}{2024-01-12} \\
+	
 \end{ganttchart}
-\end{center}
-\caption{Diagrama de Gantt de ejemplo}
-\label{fig:gantt}
-\end{figure}
+}
 
+\newpage
+\rotatebox{90}{%
+\begin{ganttchart}[
+	hgrid,
+vgrid,
+x unit=0.14cm,
+y unit chart=0.7cm,
+time slot format=isodate,
+time slot unit=day,
+bar/.append style={fill=blue!30},
+group/.append style={fill=blue!50},
+bar/.append style={fill=blue!30, bar label node/.append style={above=0.2pt}},
+%include title in canvas=false,
+%inline,
+milestone inline label node/.append style={left=5mm}
+%link/.style={->, thick}
+%link label font=\small\bfseries\color{purple}
+link/.style={|-to, line width=0.5pt, blue},
+    bar inline label node/.style={
+	anchor=east,
+	xshift=+4.5cm,
+	yshift=0.4cm,
+}
+]{2024-01-12}{2024-03-11}
+	
+	\gantttitlecalendar{year, month} \\
+	
+	\ganttgroup{5 Diseño de página web}{2024-01-13}{2024-02-03} \\
+	\ganttbar[name=51]{5.1 Investigación lenguajes de programación web}{2024-01-13}{2024-01-17} \\
+	\ganttbar[name=52]{5.2 Diseño de mock-ups para página web}{2024-01-18}{2024-01-20} \\
+	\ganttbar[name=53]{5.3 Diseño de la página web}{2024-01-20}{2024-02-03} \\
+	
+	\ganttgroup{6 Testing}{2024-02-05}{2024-03-10} \\
+	\ganttbar[name=61]{6.1 Conexión programador-servidor}{2024-02-21}{2024-02-28} \\
+	\ganttbar{6.2 Carga/descarga archivos programador-servidor}{2024-02-28}{2024-03-06} \\
+	\ganttbar{6.3 Prueba de la aplicación web}{2024-03-06}{2024-03-06} \\
+	\ganttbar{6.4 Envío de comandos página web-programador}{2024-03-06}{2024-03-06} \\
+	\ganttbar{6.5 Carga/descarga archivos página web-servidor}{2024-03-06}{2024-03-06} \\
+	
+	%\ganttlink[]{51}{52}
+	%\ganttlink[]{52}{53}
+	%\ganttlink[]{53}{61}
 
-\begin{landscape}
-\begin{figure}[htpb]
-\centering 
-\includegraphics[height=.85\textheight]{./Figuras/Gantt-2.png}
-\caption{Ejemplo de diagrama de Gantt rotado}
-\label{fig:diagGantt}
-\end{figure}
+\end{ganttchart}
+%\end{landscape}
+}
 
-\end{landscape}
+\newpage
+\rotatebox{90}{%
+\begin{ganttchart}[
+hgrid,
+vgrid,
+x unit=0.14cm,
+y unit chart=0.7cm,
+time slot format=isodate,
+time slot unit=day,
+bar/.append style={fill=blue!30},
+group/.append style={fill=blue!50}
+]{2024-03-05}{2024-05-23}
+	
+	\gantttitlecalendar{year, month} \\
+	
+	\ganttgroup{7 Documentación}{2024-03-06}{2024-05-08} \\
+	\ganttbar{7.1 Manual de usuario}{2024-03-06}{2024-03-20} \\
+	\ganttbar{7.2 Manual para el desarrollador}{2024-03-20}{2024-03-27} \\
+	
+	\ganttgroup{8 Memorias y presentación final}{2024-05-08}{2024-05-22} \\
+	\ganttbar{8.1 escritura memoria técnica}{2024-05-08}{2024-05-22} \\
+	\ganttbar{8.2 Presentación del trabajo final}{2024-05-22}{2024-05-22} \\
+	
+	%\ganttlink[]{51}{52}
+	%\ganttlink[]{52}{53}
+	%\ganttlink[]{53}{61}
 
-\end{consigna}
+\end{ganttchart}
+%\end{landscape}
+}
 
-
+\newpage
 \section{12. Presupuesto detallado del proyecto}
 \label{sec:presupuesto}
-
-\begin{consigna}{red}
-Si el proyecto es complejo entonces separarlo en partes:
-\begin{itemize}
-	\item Un total global, indicando el subtotal acumulado por cada una de las áreas.
-	\item El desglose detallado del subtotal de cada una de las áreas.
-\end{itemize}
-
-IMPORTANTE: No olvidarse de considerar los COSTOS INDIRECTOS.
-
-\end{consigna}
 
 \begin{table}[htpb]
 \centering
@@ -459,24 +537,27 @@ Descripción &
   \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
   \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
   \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ \hline
+  Microcontrolador ESP32
  &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} \\ \hline
+  \multicolumn{1}{c|}{1} & 
+  \multicolumn{1}{c|}{10} &
+  \multicolumn{1}{c|}{10} \\ \hline
+  PCB
  &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
+  \multicolumn{1}{c|}{1} &
+  \multicolumn{1}{c|}{30} &
+  \multicolumn{1}{c|}{30} \\ \hline
+ 
+  Otros componentes
+ &
+  \multicolumn{1}{c|}{1} &
+  \multicolumn{1}{c|}{30} &
+  \multicolumn{1}{c|}{30} \\ \hline
+
+
+
 \multicolumn{3}{|c|}{SUBTOTAL} &
-  \multicolumn{1}{c|}{} \\ \hline
+  \multicolumn{1}{c|}{70} \\ \hline
 \rowcolor[HTML]{C0C0C0} 
 \multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS INDIRECTOS} \\ \hline
 \rowcolor[HTML]{C0C0C0} 
@@ -484,27 +565,26 @@ Descripción &
   \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
   \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
   \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
+  
+Mano de obra
+&
+\multicolumn{1}{|l|}{671} &
+\multicolumn{1}{|l|}{10} &
+\multicolumn{1}{|l|}{6170}   \\ \hline
+
+
+
 \multicolumn{3}{|c|}{SUBTOTAL} &
-  \multicolumn{1}{c|}{} \\ \hline
+  \multicolumn{1}{c|}{6170} \\ \hline
 \rowcolor[HTML]{C0C0C0}
 \multicolumn{3}{|c|}{TOTAL} &
-   \\ \hline
+  \multicolumn{1}{c|}{6240} \\ \hline
+
 \end{tabularx}%
 \end{table}
 
 
+\newpage
 \section{13. Gestión de riesgos}
 \label{sec:riesgos}
 
